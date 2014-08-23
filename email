@@ -1,0 +1,12 @@
+import imaplib
+
+abc = imaplib.IMAP4()
+ga = abc.login("email@gmail.com", "password")
+folder = ga.getMessagesByFolder('inbox')
+
+for thread in folder:
+  print thread.id, len(thread), thread.subject
+  for msg in thread:
+    print "  ", msg.id, msg.number, msg.subject
+    print msg.source
+    

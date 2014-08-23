@@ -1,0 +1,41 @@
+import sqlite
+
+def flaglist():
+    db = sqlite.connect()
+    cur = db.cursor()
+    cur.execute('SELECT flag FROM flag')
+    result_list = [row[0] for row in cur.fetchall()]
+    compare(result_list)
+    db.close() 
+
+def Flagpts():
+    db = sqlite.connect()
+    cur = db.cursor()
+    cur.execute('SELECT flag.flag,points.points FROM flag, points WHERE flag.points_id = points.id')
+    b = cur.fetchall()
+    print b
+    cur.execute('SELECT flag.flag,points.points FROM flag, points WHERE flag.points_id = points.id')
+    a = [row[0] for row in cur.fetchall()]
+    print a
+
+
+def compare(result_list):
+    UserEnter = raw_input('Enter the flag ')
+    for flags in result_list:
+        if UserEnter == flags:
+            Ptaward(UserEnter)
+            
+            print 'Your flag ' + UserEnter + ' match'
+
+def Ptaward(UserEnter):
+    db = sqlite.connect()
+    cur = db.cursor()
+    cur.execute('SELECT points.points FROM flag, points WHERE flag.points_id = points.id AND flag.flag = (?)', (UserEnter,))
+    ab = [row[0] for row in cur.fetchall()]
+    for pts in ab:
+        print pts
+        print 'Your flag ' + UserEnter + ' match.' + 'You are awared ' + str(pts) + ' points.'
+
+
+    
+flaglist()
